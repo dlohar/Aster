@@ -32,9 +32,11 @@ Keys.fork in run := true
 
 javaOptions in run ++= Seq(
     "-Xms1G", "-Xmx2G", "-XX:+UseConcMarkSweepGC","-Xss1G",
-    "-Djava.library.path=lib/cplex_lib_linux")
+    "-Djava.library.path=lib/cplex/cplex_lib_linux")
+//"-Djava.library.path=lib/cplex/cplex_lib_mac"
 
-javaOptions in Test ++= Seq("-Djava.library.path=lib/cplex_lib_linux")
+javaOptions in Test ++= Seq("-Djava.library.path=lib/cplex/cplex_lib_linux")
+// javaOptions in Test ++= Seq("-Djava.library.path=lib/cplex/cplex_lib_mac")
 
 Keys.fork in Test := true   //for native libraries to be on correct path
 
