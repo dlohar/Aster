@@ -20,3 +20,5 @@ testcases/.DS_Store
 project/.DS_Store
 benchmarking/.DS_Store
 benchmarking/c/.DS_Store
+lib/cplex_lib_linux/.DS_Store
+lib/cplex_lib_mac/.DS_Store
