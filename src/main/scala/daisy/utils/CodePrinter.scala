@@ -12,12 +12,14 @@ import lang.Trees._
 object CodePrinter {
   val suffix: Map[String, String] = HashMap(
     "C" -> ".c",
+    "OptimizedC" -> ".c",
     "Scala" -> ".scala",
     "FPCore" -> ".fpcore")
 
   def apply(t: Program, ctx: Context, lang: String, out: BufferedWriter): Unit = {
     val printer = lang match {
-      case "apfixed" | "C" => new CPrinter(out, ctx)
+      case "apfixed" | "OptimizedC" => new CPrinterOptimized(out, ctx)
+      case "C" => new CPrinter(out, ctx)
       case "Scala" => new ScalaPrinter(out, ctx)
       case "FPCore" => new FPCorePrinter(out, ctx)
     }

@@ -430,6 +430,7 @@ class CPrinter(buffer: Appendable, ctx: Context) extends CodePrinter(buffer) {
         }
 
         sb.append(") {")
+        sb.append("\n#pragma HLS PIPELINE\n#pragma HLS ARRAY_PARTITION variable=_result complete")
         nl(lvl+1)
         fd.body match {
           case Some(body@Let(_,_,_)) =>

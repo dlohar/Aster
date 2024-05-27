@@ -27,7 +27,7 @@ object NNCodeGenerationPhase extends DaisyPhase {
   override val definedOptions: Set[CmdLineOption[Any]] = Set(
     StringChoiceOption(
       "lang",
-      Set("C", "Scala", "FPCore"),
+      Set("C", "OptimizedC", "Scala", "FPCore"),
       "Scala",
       "Language for which to generate code"),
     FlagOption(
