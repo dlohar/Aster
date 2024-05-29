@@ -15,7 +15,7 @@ import lang.Identifiers._
 // importString: import and package statements inlcuded at top of generated file
 class CPrinter(buffer: Appendable, ctx: Context) extends CodePrinter(buffer) {
 
-  val format    =  ctx.option[Precision]("precision")
+  val format   =  ctx.option[Precision]("precision")
 
   // store the dimensions of the matrices and vectors
   var dim: Map[Identifier, (Int, Int)] = Map()
@@ -151,14 +151,54 @@ class CPrinter(buffer: Appendable, ctx: Context) extends CodePrinter(buffer) {
         LinearMap(m @ Variable(mId), x @ Variable(xId)),
         b @ Variable(bId))), e) =>
 
-        val forLoopLength = dim(mId)._1
-        val dotProdLength = dim(mId)._2
+        val forLoopLength = dim(mId)._1 //No. of neuons in current layer
+        val dotProdLength = dim(mId)._2 //No. of neuons in previous layer
+        
+        //start........
+        val layerIndex = id.name.split("layer")(1).toInt
 
+        sb.append(s"${id.getType} ${id}[$forLoopLength];")
+        nl(lvl)
+        sb.append(s"${mId.getType} _dot_tmp$layerIndex[$dotProdLength];")
+        nl(lvl)
+        sb.append(s"for (int i = 0; i < $forLoopLength; i++) {")
+        nl(lvl + 1)
+        
+        if (xId.name contains "layer") {
+        sb.append(s"for (int j = 0; j < $dotProdLength; j++) {")
+        nl(lvl+2)
+        sb.append(s"_dot_tmp$layerIndex[j] = ${mId}[i][j] * ${xId}[j];")
+        nl(lvl+1)
+        sb.append("}")
+        nl(lvl+1)
+        }
+        else {
+        for (j <- 0 until dotProdLength) {
+        	sb.append(s"_dot_tmp$layerIndex[$j] = ${mId}[i][$j] * ${xId}_${j};")
+            nl(lvl+1)
+        }
+        }
+		sb.append(s"${bId.getType} _bias_tmp = bias$layerIndex[i];")
+		nl(lvl+1)
+		sb.append(s"for (int k = 0; k < $dotProdLength; k++) {") // Loop over previous layer
+		nl(lvl + 2)
+		sb.append(s"_bias_tmp = _bias_tmp + _dot_tmp$layerIndex[k];")
+		nl(lvl+1)
+		sb.append("}")
+		nl(lvl+1)
+		sb.append(s"${id}[i] = fmax(0, _bias_tmp);") // Activation function
+		nl(lvl)
+		sb.append("}")
+        nl(lvl);nl(lvl)
+        //end.........
+        
+        
+
+        /*
         sb.append(s"${id.getType} ${id}[$forLoopLength];")
         nl(lvl)
         sb.append(s"for (int i = 0; i < $forLoopLength; i++) {")
         nl(lvl + 1)
-
         // dot product
         sb.append(s"${mId.getType} _dot_tmp = ")
         if (xId.name contains "layer") {
@@ -183,7 +223,7 @@ class CPrinter(buffer: Appendable, ctx: Context) extends CodePrinter(buffer) {
 
         sb.append("}")
         nl(lvl);nl(lvl)
-
+*/
         e match {
 
           case Variable(nextId) if (nextId == id) => // return
@@ -201,8 +241,46 @@ class CPrinter(buffer: Appendable, ctx: Context) extends CodePrinter(buffer) {
 
         val forLoopLength = dim(mId)._1
         val dotProdLength = dim(mId)._2
+        
+        //start........
+        val layerIndex = id.name.split("layer")(1).toInt
 
         sb.append(s"${id.getType} ${id}[$forLoopLength];")
+        nl(lvl)
+        sb.append(s"${mId.getType} _dot_tmp$layerIndex[$dotProdLength];")
+        nl(lvl)
+        sb.append(s"for (int i = 0; i < $forLoopLength; i++) {")
+        nl(lvl + 1)
+        
+        if (xId.name contains "layer") {
+        sb.append(s"for (int j = 0; j < $dotProdLength; j++) {")
+        nl(lvl+2)
+        sb.append(s"_dot_tmp$layerIndex[j] = ${mId}[i][j] * ${xId}[j];")
+        nl(lvl+1)
+        sb.append("}")
+        nl(lvl+1)
+        }
+        else {
+        for (j <- 0 until dotProdLength) {
+        	sb.append(s"_dot_tmp$layerIndex[$j] = ${mId}[i][$j] * ${xId}_${j};")
+            nl(lvl+1)
+        }
+        }
+		sb.append(s"${bId.getType} _bias_tmp = bias$layerIndex[i];")
+		nl(lvl+1)
+		sb.append(s"for (int k = 0; k < $dotProdLength; k++) {") // Loop over previous layer
+		nl(lvl + 2)
+		sb.append(s"_bias_tmp = _bias_tmp + _dot_tmp$layerIndex[k];")
+		nl(lvl+1)
+		sb.append("}")
+		nl(lvl+1)
+		sb.append(s"${id}[i] = _bias_tmp;") // Activation function
+		nl(lvl)
+		sb.append("}")
+        nl(lvl);nl(lvl)
+        //end.........
+
+        /*sb.append(s"${id.getType} ${id}[$forLoopLength];")
         nl(lvl)
         sb.append(s"for (int i = 0; i < $forLoopLength; i++) {")
         nl(lvl + 1)
@@ -230,7 +308,7 @@ class CPrinter(buffer: Appendable, ctx: Context) extends CodePrinter(buffer) {
         nl(lvl)
 
         sb.append("}")
-        nl(lvl);nl(lvl)
+        nl(lvl);nl(lvl)*/
 
         e match {
 
