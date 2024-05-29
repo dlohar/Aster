@@ -240,6 +240,7 @@ object NNQuantizationPhase extends DaisyPhase with tools.RoundoffEvaluators with
     val f: Future[Unit] = Future {
       // Run soplex with the model until timeout
       val res = Runtime.getRuntime().exec("/var/tmp/qnn/scipoptsuite-7.0.3/scip_build/bin/scip -f model.lp -s scip.set")
+      // val res = Runtime.getRuntime().exec("/var/tmp/safe-qnn/scipoptsuite-7.0.3/scip_build/bin/scip -f model.lp -s scip.set")
       // val res = Runtime.getRuntime().exec("../../scipOptSuite/bin/scip -f model.lp -s scip.set")
       // Read back the results
       val stdInput =  new BufferedReader(new InputStreamReader(res.getInputStream))
