@@ -15,7 +15,7 @@ Reference paper: [Sound Mixed Fixed-Point Quantization of Neural Networks](https
 
 **NOTE:** Aster currently uses CPLEX for generating optimization constraints. Unzip the cplex files in the `lib/` folder and ensure renaming the appropriate jar file to `cplex.jar` and move it from`lib/cplex` to `lib/`. 
 
-**NOTE:** If sbt fails to construct terminal, do `export TERM=xterm-color`
+**NOTE:** If sbt fails to construct terminal, run `export TERM=xterm-color`.
 
 ## Running Aster
 
