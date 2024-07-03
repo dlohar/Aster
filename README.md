@@ -13,7 +13,9 @@ Reference paper: [Sound Mixed Fixed-Point Quantization of Neural Networks](https
 
 * If require latency evaluation: [Xilinx’s Vivado (version v2020.1)](https://www.xilinx.com) 
 
-**NOTE:** Aster currently uses CPLEX for generating optimization constraints. Unzip the cplex files in the `lib/` folder and ensure renaming the appropriate jar file to `cplex.jar` and move it from`lib/cplex` to `lib/`. 
+**NOTE:** Aster currently uses CPLEX for generating optimization constraints. Unzip the cplex files in the `lib/` folder and ensure renaming the appropriate jar file to `cplex.jar` and move it from`lib/cplex` to `lib/`.  
+
+**NOTE:** If sbt fails to construct terminal, run `export TERM=xterm-color`.
 
 ## Running Aster
 
