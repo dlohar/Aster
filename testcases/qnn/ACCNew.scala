@@ -1737,5 +1737,6 @@ object ACCNew {
   
   layer8
 
-} ensuring(res => res +/- 1e-3)
+  } ensuring(res => res +/- 1e-3)
+}
 
