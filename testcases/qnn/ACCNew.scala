@@ -291,8 +291,8 @@ object ACCNew {
     val layer2 = relu(weights2 * layer1 + bias2)
     val layer3 = relu(weights3 * layer2 + bias3)
     val layer4 = relu(weights4 * layer3 + bias4)
-    val layer5 = relu(weights5 * layer4 + bias5)
-    val layer6 = relu(weights6 * layer5 + bias6)
+    val layer5 = linear(weights5 * layer4 + bias5)
+    val layer6 = linear(weights6 * layer5 + bias6)
     val layer7 = relu(weights7 * layer6 + bias7)
     val layer8 = linear(weights8 * layer7 + bias8)
   
