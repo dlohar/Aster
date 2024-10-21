@@ -1,7 +1,7 @@
 import daisy.lang._
 import Vector._
 
-object VertCASVer1 {
+object VertCASVer2 {
 
   def nn1(x: Vector): Vector = {
     require(lowerBounds(x, List(-0.5, -0.5, -0.0000005, -0.35)) &&
@@ -331,4 +331,5 @@ object VertCASVer1 {
   
   layer7
 
-} ensuring(res => res +/- 1e-3)}
+  } ensuring(res => res +/- 1e-3)
+}
