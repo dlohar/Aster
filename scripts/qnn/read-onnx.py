@@ -61,5 +61,9 @@ for i, b in enumerate(bias_collect):
 # Write scala code
 with open(f'{FILE_NAME.split(".")[0]}.scala', 'w') as f:
   f.write('import daisy.lang._\nimport Vector._\n\n')
+  f.write(f'object {FILE_NAME.split(".")[0]} {{\n\n')
+  f.write('def nn1(x: Vector): Vector = {\n')
+  f.write('require(lowerBounds(x, List()) &&\n')
+  f.write('upperBounds(x, List()))\n\n')
   f.write(code_weights_biases)
   f.write('} ensuring(res => res +/- 1e-3)}\n')
